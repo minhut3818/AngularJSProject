@@ -1,0 +1,76 @@
+<section class="container">
+		<section class="row">
+			<section class="col-md-2"></section>
+			<section class="col-md-8">
+				<h1>Product List</h1>
+				<h5>This is product list</h5>
+			</section>
+			<section class="col-md-2"></section>
+		</section>
+		<section class="row">
+			<section class="col-md-2"></section>
+			<section class="col-md-8">
+				<div class="form-inline">
+					<label>Search: </label><input class="form-control" type="text" ng-model="text_filter" value="" />
+				</div>
+				<table class="table">
+					<tr>
+						<th ng-click="orderByMe('name')">Name</th>
+						<th ng-click="orderByMe('model')">Model</th>
+						<th ng-click="orderByMe('year')">Year</th>
+						<th ng-click="orderByMe('price')">Price</th>
+						<th ng-click="orderByMe('producer')">Producer</th>
+						<th ng-click="orderByMe('total')">Available</th>
+						<th>Action</th>
+					</tr>
+					<tr ng-repeat="product in products | filter : text_filter | orderBy:myOrderBy">
+						<td ><a href="#/store/infor/{{product.id}}" >{{product.name}}</a></td>
+						<td>{{product.model}}</td>
+						<td>{{product.year}}</td>
+						<td>{{product.price | currency}}</td>
+						<td>{{product.producer}}</td>
+						<td>							
+							<button ng-click="addTotal(product.id)" class="btn btn-success">
+								<span style="color:white" class="glyphicon glyphicon-plus"></span>
+							</button>
+							{{product.available}}
+							<button ng-disabled="product.available==0" ng-click="minusTotal(product.id)" class="btn btn-warning">
+								<span style="color:white" class="glyphicon glyphicon-minus"></span>
+							</button>
+						</td>
+						<td>
+							<button ng-click='remove(product.id)' type="button" class="btn btn-danger">
+								<span style="color:white" class="glyphicon glyphicon-glyphicon glyphicon-trash"></span>
+							</button>
+						</td>
+					</tr>
+				</table>
+			</section>
+			<section class="col-md-2"></section>
+		</section>
+		<section class="row">
+			<section class="col-md-2"></section>
+			<section class="col-md-8">
+				<form class="form-horizontal css-form" name="myForm" ng-submit="AddProduct()">
+					<h3>Add new product</h3>
+					<label>Name:</label>
+					<input type="text" class="form-control" ng-model="name" required />
+					<label>Model:</label>
+					<input type="text" class="form-control" ng-model="model" required />
+					<label>Year:</label>
+					<input type="text" class="form-control" ng-model="year" required />
+					<label>Price:</label>
+					<input type="text" class="form-control" ng-model="price" required/>
+					<label>Producer:</label>
+					<input type="text" class="form-control" ng-model="producer"  required />
+					<label>Available:</label>
+					<input name="available" type="text" pattern="[0-9]+" class="form-control" ng-model="available" required /><br>
+					<div ng-show="myForm.available.$dirty && myForm.available.$invalid">
+						<span ng-show="myForm.available.$error.required">Fill out... pls</span>
+						<span ng-show="myForm.available.$error.pattern">Number... please</span>
+					</div>
+					<button type="submit" ng-disable="myForm.$invalid" class="btn btn-primary">Add</button>
+				</form>
+			</section>
+			<section class="col-md-2"></section>
+	</section>
